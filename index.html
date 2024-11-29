@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile-Like Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            max-width: 360px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        input[type="text"] {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 25%;
+            height: 60px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #333;
+            border: 1px solid #222;
+            margin: 5px;
+        }
+        .operator {
+            background-color: #ff9500;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #ff9500;
+            font-size: 20px;
+        }
+        .submit-btn, .operator {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <!-- First Page: Name Entry and Greeting -->
+    <div id="first-page">
+        <h2>Please enter your name:</h2>
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <button class="submit-btn" onclick="setName()">Submit</button>
+    </div>
+
+    <!-- Second Page: Calculator -->
+    <div id="calculator-page" class="hidden">
+        <h2 id="greeting">Thanks for using our calculator!</h2>
+        <input type="text" id="display" disabled />
+
+        <div id="buttons">
+            <button onclick="updateDisplay('AC')">AC</button>
+            <button onclick="updateDisplay('DEL')">DEL</button>
+            <button onclick="updateDisplay('%')">%</button>
+            <button class="operator" onclick="updateDisplay('/')">/</button>
+
+            <button onclick="updateDisplay('7')">7</button>
+            <button onclick="updateDisplay('8')">8</button>
+            <button onclick="updateDisplay('9')">9</button>
+            <button class="operator" onclick="updateDisplay('*')">*</button>
+
+            <button onclick="updateDisplay('4')">4</button>
+            <button onclick="updateDisplay('5')">5</button>
+            <button onclick="updateDisplay('6')">6</button>
+            <button class="operator" onclick="updateDisplay('-')">-</button>
+
+            <button onclick="updateDisplay('1')">1</button>
+            <button onclick="updateDisplay('2')">2</button>
+            <button onclick="updateDisplay('3')">3</button>
+            <button class="operator" onclick="updateDisplay('+')">+</button>
+
+            <button onclick="updateDisplay('0')">0</button>
+            <button onclick="updateDisplay('.')">.</button>
+            <button class="operator" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let userName = '';
+    let currentDisplay = '';
+
+    // Set the user's name and display greeting
+    function setName() {
+        userName = document.getElementById("nameInput").value.trim();
+        if (userName) {
+            document.getElementById("greeting").innerText = `Thanks for using our calculator, ${userName}!`;
+            document.getElementById("first-page").classList.add('hidden');
+            document.getElementById("calculator-page").classList.remove('hidden');
+        } else {
+            alert("Please enter your name.");
+        }
+    }
+
+    // Update the display based on button click
+    function updateDisplay(value) {
+        if (value === 'AC') {
+            currentDisplay = '';
+        } else if (value === 'DEL') {
+            currentDisplay = currentDisplay.slice(0, -1);
+        } else {
+            currentDisplay += value;
+        }
+        document.getElementById("display").value = currentDisplay;
+    }
+
+    // Calculate the result of the expression
+    function calculateResult() {
+        try {
+            let result = eval(currentDisplay);
+            document.getElementById("display").value = result;
+            currentDisplay = result.toString();
+        } catch (error) {
+            alert("Invalid input or syntax error.");
+            currentDisplay = '';
+            document.getElementById("display").value = '';
+        }
+    }
+</script>
+
+</body>
+</html>
